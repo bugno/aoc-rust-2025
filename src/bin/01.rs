@@ -1,7 +1,7 @@
 advent_of_code::solution!(1);
 
 pub fn part_one(input: &str) -> Option<u64> {
-    let n: i32 = 100;
+    let dial_total: i32 = 100;
     let mut pos: i32 = 50; // starting position
     let mut zero_count: u64 = 0;
 
@@ -17,17 +17,17 @@ pub fn part_one(input: &str) -> Option<u64> {
         let dist_str: String = chars.collect();
         let dist: i32 = dist_str.parse().expect("invalid distance");
 
-        let d = dist % n;
+        let d = dist % dial_total;
 
         match dir {
             'L' => {
                 // left: towards lower numbers
                 // pos = (pos - d) mod 100
-                pos = (pos + n - d) % n;
+                pos = (pos + dial_total - d) % dial_total;
             }
             'R' => {
                 // right: towards higher numbers
-                pos = (pos + d) % n;
+                pos = (pos + d) % dial_total;
             }
             _ => panic!("unexpected direction: {dir}"),
         }
@@ -57,8 +57,8 @@ pub fn part_two(input: &str) -> Option<u64> {
         let dir = dir_part.chars().next().expect("missing direction");
         let dist: i64 = dist_part.parse().expect("invalid distance");
 
-        let d = dist;
-        let d_mod = d % n;
+        let turn_ticks = dist;
+        let d_mod = turn_ticks % n;
         let r = pos; // pos is always in 0..=99
 
         // Count how many clicks in this rotation land on 0
@@ -80,8 +80,8 @@ pub fn part_two(input: &str) -> Option<u64> {
             _ => panic!("unexpected direction: {dir}"),
         };
 
-        if first_k <= d && d > 0 {
-            let hits:i64 = 1 + (d - first_k) / n;
+        if first_k <= turn_ticks && turn_ticks > 0 {
+            let hits:i64 = 1 + (turn_ticks - first_k) / n;
             zero_count += hits;
         }
 
